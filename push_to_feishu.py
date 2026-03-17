@@ -23,14 +23,22 @@ def send_feishu():
     with open(latest_file, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # 构造飞书消息体
+    # 构造飞书互动卡片消息体
     payload = {
-        "msg_type": "markdown",
-        "content": {
-            "text": f"🚀 **AI 科技情报日报**\n\n{content[:4000]}" # 飞书单条消息有字数限制
+        "msg_type": "interactive",
+        "card": {
+            "header": {
+                "title": {"tag": "plain_text", "content": "🚀 AI 科技情报日报"},
+                "template": "blue"
+            },
+            "elements": [
+                {
+                    "tag": "div",
+                    "text": {"tag": "lark_md", "content": content[:4000]}
+                }
+            ]
         }
     }
-    
     res = requests.post(webhook_url, json=payload)
     print(f"飞书返回结果: {res.text}")
 
