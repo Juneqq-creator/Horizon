@@ -51,10 +51,16 @@ jobs:
       - name: Run Horizon
         env:
           OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # 这一行建议也加上，确保它走 Google 的 OpenAI 兼容模式
           OPENAI_API_BASE: "https://generativelanguage.googleapis.com/v1beta/openai/"
         run: |
-          python -m horizon --hours 24
+          # 增加调试行：如果变量为空，脚本会在这里停下
+          if [ -z "$OPENAI_API_KEY" ]; then echo "❌ 变量传递失败，请检查 GitHub Secrets"; exit 1; fi
+          
+          # 强制将环境变量导出到当前 shell
+          export OPENAI_API_KEY="${{ secrets.GEMINI_API_KEY }}"
+          export OPENAI_API_BASE="https://generativelanguage.googleapis.com/v1beta/openai/"
+          
+          uv run horizon --hours 24
 
       - name: Push to Feishu
         env:
