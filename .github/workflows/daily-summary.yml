@@ -49,17 +49,17 @@ jobs:
           publish_branch: gh-pages
           enable_jekyll: true
       - name: Run Horizon
-        env:
-          OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          OPENAI_API_BASE: "https://generativelanguage.googleapis.com/v1beta/openai/"
         run: |
-          # 增加调试行：如果变量为空，脚本会在这里停下
-          if [ -z "$OPENAI_API_KEY" ]; then echo "❌ 变量传递失败，请检查 GitHub Secrets"; exit 1; fi
-          
-          # 强制将环境变量导出到当前 shell
-          export OPENAI_API_KEY="${{ secrets.GEMINI_API_KEY }}"
-          export OPENAI_API_BASE="https://generativelanguage.googleapis.com/v1beta/openai/"
-          
+          # 检查 Secret 是否真的存在于 GitHub 保险箱
+          if [ -z "${{ secrets.GEMINI_API_KEY }}" ]; then
+            echo "❌ 错误：GitHub Secrets 中没有找到 GEMINI_API_KEY，请检查仓库 Settings"
+            exit 1
+          fi
+
+          # 使用行内变量运行，强制覆盖一切配置
+          MY_GEMINI_KEY="${{ secrets.GEMINI_API_KEY }}" \
+          OPENAI_API_KEY="${{ secrets.GEMINI_API_KEY }}" \
+          OPENAI_API_BASE="https://generativelanguage.googleapis.com/v1beta/openai/" \
           uv run horizon --hours 24
 
       - name: Push to Feishu
