@@ -51,9 +51,11 @@ jobs:
           publish_branch: gh-pages
           enable_jekyll: true
 
-
       - name: Push to Feishu
         env:
           FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
         run: |
+          # 关键：先安装 requests 库
+          pip install requests
+          # 再运行脚本
           python push_to_feishu.py
