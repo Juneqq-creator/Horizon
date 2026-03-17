@@ -4,7 +4,7 @@
     "provider": "openai",
     "model": "gemini-1.5-flash",
     "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
-    "api_key_env": "OPENAI_API_KEY",
+    "api_key_env": "MY_GEMINI_KEY",
     "languages": [
       "zh",
       "en"
