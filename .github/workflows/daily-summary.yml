@@ -48,3 +48,14 @@ jobs:
           commit_message: "📝 Daily Summary: ${{ env.DATE }}"
           publish_branch: gh-pages
           enable_jekyll: true
+      - name: Run Horizon
+        env:
+          OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }} # 借用这个变量名
+        run: |
+          python -m horizon --hours 24
+
+      - name: Push to Feishu
+        env:
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+        run: |
+          python push_to_feishu.py
