@@ -4,6 +4,9 @@ import glob
 
 def send_feishu():
     webhook_url = os.getenv("FEISHU_WEBHOOK")
+    print(f"检查 Webhook 是否加载: {webhook_url[:15] if webhook_url else '空'}...")
+    # ... 其余代码
+    webhook_url = os.getenv("FEISHU_WEBHOOK")
     if not webhook_url:
         print("❌ 错误: 未配置 FEISHU_WEBHOOK")
         return
