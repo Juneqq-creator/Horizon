@@ -51,6 +51,8 @@ jobs:
       - name: Run Horizon
         env:
           OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }} # 借用这个变量名
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_BASE: "https://generativelanguage.googleapis.com/v1beta/openai/"
         run: |
           python -m horizon --hours 24
 
