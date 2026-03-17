@@ -50,8 +50,8 @@ jobs:
           enable_jekyll: true
       - name: Run Horizon
         env:
-          OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }} # 借用这个变量名
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # 这一行建议也加上，确保它走 Google 的 OpenAI 兼容模式
           OPENAI_API_BASE: "https://generativelanguage.googleapis.com/v1beta/openai/"
         run: |
           python -m horizon --hours 24
